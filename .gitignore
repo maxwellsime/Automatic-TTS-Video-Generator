@@ -1,1 +1,3 @@
 *.pyc
+Images/*
+Audio/*
