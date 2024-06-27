@@ -1,17 +1,45 @@
 import cv2 as cv
 import PIL
+import re
 from pytesseract import image_to_string, pytesseract
 
 pytesseract.tesseract_cmd = r'C:\Program Files (x86)\Tesseract-OCR\tesseract'
 
 def ocr_text_image(img_path):
-    print("Reading Image")
     img = cv.imread(img_path)
-
-    print("Pre-Processing Image")
     gray_img = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
-    # edged_img = cv.Canny(gray_img, 30, 30)
 
-    print("Performing Character Recognition")
+    print('Performing Character Recognition')
     otsu_thresh_image = PIL.Image.fromarray(gray_img)
-    return image_to_string(otsu_thresh_image)
+    
+    image_text = clean_string(image_to_string(otsu_thresh_image))
+    # write_to_disk('test1', image_text)        # Debugging
+    
+    return image_text
+
+def clean_string(text):
+    # Remove header
+    poster_id_index = text.find('No.')
+    text = text[text.find('\n', poster_id_index):]
+
+    # Remove file ?? Mobile screenshots == different img formatting
+    file_line_index = text.find('File:')
+    if(file_line_index != -1):
+        text = text[file_line_index+1:]
+        
+    # Remove user IDs
+    regex_pattern = r'=?[>=]\d{9}\d?'
+    text = re.sub(regex_pattern, '', text)
+
+    # Replace specific characters, improving TTS
+    replace_chars = ['|', 'I']
+    remove_chars = '>�'
+    trans_table = str.maketrans(replace_chars[0], replace_chars[1], remove_chars)
+    text = text.translate(trans_table)
+    
+    return text
+
+def write_to_disk(file_name, text):
+    with open('./%s.txt'%file_name, 'w') as f:
+        f.write(text)
+
