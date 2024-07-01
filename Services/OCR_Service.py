@@ -5,7 +5,7 @@ from pytesseract import image_to_string, pytesseract
 
 pytesseract.tesseract_cmd = r'C:\Program Files (x86)\Tesseract-OCR\tesseract'
 
-def ocr_text_image(img_path):
+def ocr_text_image(img_path, debug = False):
     img = cv.imread(img_path)
     gray_img = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
 
@@ -13,8 +13,9 @@ def ocr_text_image(img_path):
     otsu_thresh_image = PIL.Image.fromarray(gray_img)
     
     image_text = clean_string(image_to_string(otsu_thresh_image))
-    # write_to_disk('test1', image_text)        # Debugging
-    
+    if(debug):
+        write_to_disk('test1', image_text)
+        
     return image_text
 
 def clean_string(text):
@@ -42,4 +43,3 @@ def clean_string(text):
 def write_to_disk(file_name, text):
     with open('./%s.txt'%file_name, 'w') as f:
         f.write(text)
-
