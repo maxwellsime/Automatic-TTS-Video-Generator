@@ -9,4 +9,4 @@ def tts_from_string(string, name):
     tts = TTS('tts_models/en/ljspeech/tacotron2-DDC').to(device)
     
     print("Generating TTS")
-    tts.tts_to_file(text=string, file_path='./Audio/%s.wav'%name)
+    tts.tts_to_file(text=string, file_path='./Output/Audio/%s.wav'%name)

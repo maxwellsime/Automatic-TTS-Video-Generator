@@ -23,11 +23,14 @@ def clean_string(text):
     poster_id_index = text.find('No.')
     text = text[text.find('\n', poster_id_index):]
 
-    # Remove file ?? Mobile screenshots == different img formatting
+    # Remove file and image formatting
     file_line_index = text.find('File:')
     if(file_line_index != -1):
         text = text[file_line_index+1:]
-        
+        regex_pattern = r'\d[KB,MB][JPG,JPEG,PNG]'
+        text = re.sub(regex_pattern, '', text)
+        # Search above it for file name and remove that if exists
+    
     # Remove user IDs
     regex_pattern = r'=?[>=]\d{9}\d?'
     text = re.sub(regex_pattern, '', text)
