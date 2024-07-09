@@ -27,13 +27,13 @@ def clean_string(text):
     file_line_index = text.find('File:')
     if(file_line_index != -1):
         text = text[file_line_index+1:]
-        regex_pattern = r'\d[KB,MB][JPG,JPEG,PNG]'
-        text = re.sub(regex_pattern, '', text)
-        # Search above it for file name and remove that if exists
-    
+    else:
+        img_file_regex = r'\d*\s?(KB|MB)\s?(JPEG|PNG|JPG)'
+        text = re.sub(img_file_regex, '', text)
+
     # Remove user IDs
-    regex_pattern = r'=?[>=]\d{9}\d?'
-    text = re.sub(regex_pattern, '', text)
+    user_id_regex = r'=?[>=]\d{9}\d?'
+    text = re.sub(user_id_regex, '', text)
 
     # Replace specific characters, improving TTS
     replace_chars = ['|', 'I']
