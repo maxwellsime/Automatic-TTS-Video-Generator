@@ -8,12 +8,15 @@ Videos narrating Reddit or text image stories are increasingly more popular on Y
 - [x] Create TTS clip with python library
 - [x] Output into video
 - [x] Add audio into video
+- [ ] Improve upon TTS audio, speaking, and cadence.
+- [ ] Add background music
+- [ ] Create video (instead of static image)
+
+- [ ] Web Scrape from Reddit
 
 ## Future Ideas
-- [ ] Improve upon TTS quality
 - [ ] Automatic upload to youtube/tiktok
 - [ ] Create novel titles/descriptions
-- [ ] Improved AI-based TTS instead of google TTS
 - [ ] Research into Retrieval-Based Voice Conversion (RVC)
 - [ ] Vtuber model?
 
