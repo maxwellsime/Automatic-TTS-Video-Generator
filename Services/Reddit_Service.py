@@ -1,8 +1,9 @@
 import sys
 sys.path.append('.')
-from Routes.Reddit_API import get_top_posts
+from Routes.Reddit_API import reddit_api
 
 def get_top_greentext_posts():
-    posts = get_top_posts('greentext')
+    api = reddit_api()
+    posts = api.get_top_posts('greentext')
     print(posts.text)
     
