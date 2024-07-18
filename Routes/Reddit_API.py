@@ -28,3 +28,11 @@ class reddit_api:
         else:
             return response
         
+    def get_post_comments(self, subreddit, post_id):
+        response = requests.get('%s/r/%s/comments/%s.json'%(self.reddit_url, subreddit, post_id))
+
+        if response.status_code != 200:
+            raise Exception('Invalid response from API')
+        else:
+            return response
+        
