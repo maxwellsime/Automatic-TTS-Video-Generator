@@ -1,5 +1,6 @@
 import cv2 as cv
 import re
+import numpy as np
 from pytesseract import image_to_string, pytesseract, Output
 
 pytesseract.tesseract_cmd = r'C:\Program Files (x86)\Tesseract-OCR\tesseract'
@@ -9,6 +10,7 @@ def __run__(img_path, debug = False):
     processed_img = pre_process_img(img)
     img_text = ocr_text_image(processed_img, debug)
     boundary_boxes_on_text(img)
+    blur_section_of_image(img, 200)
     if(debug == True):
         show_image(processed_img)
 
@@ -31,7 +33,14 @@ def boundary_boxes_on_text(img):
         h = results["height"][i]
         cv.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
-    show_image(img)
+def blur_section_of_image(img, blur_y):
+    img_dimensions = img.shape
+    blurred_img = cv.GaussianBlur(img, (21, 21), 0)
+    mask = np.zeros(img_dimensions, dtype=np.uint8)
+    mask = cv.rectangle(mask, (img_dimensions[1], blur_y), (0, 0), (255, 255, 255), -1)
+    edited_img = np.where(mask==(255, 255, 255), img, blurred_img)
+    
+    return edited_img
 
 def ocr_text_image(img, debug):
     print('Performing Character Recognition')    
